@@ -59,7 +59,10 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
+  middleware: ["checkRegister"],
   data() {
     return {
       form: {
@@ -83,6 +86,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("alert", ["setMessage"]),
     // アイコン画像をクリックした時にdisplay:noneにしているinputタグをクリックしたことにできる。inputにref属性を指定していたから。this.$refs.属性名でDOM要素にアクセスできる
     selectImage() {
       this.$refs.image.click();
@@ -168,7 +172,7 @@ export default {
           });
         this.$router.push("/");
       } catch (e) {
-        console.log(e);
+        this.setMessage({ message: "登録に失敗しました。" });
       }
     }
   }
